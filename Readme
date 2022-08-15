@@ -1,0 +1,10 @@
+- Build go:
+env GOOS=linux GOARCH=amd64 go build -o bin/goLambdaFileMove
+zip -j bin/goLambdaFileMove.zip bin/goLambdaFileMove
+
+- Deploy:
+cd terraform
+terraform init
+terraform plan -var-file=environment/staging.tfvars
+terraform apply -var-file=environment/staging.tfvars
+
