@@ -23,6 +23,11 @@ resource "aws_lambda_function" "golambda-FileMove" {
   source_code_hash = filebase64sha256(data.archive_file.lambda_zip.output_path)
   memory_size       = 128
   timeout           = 30
+  environment {
+    variables = {
+      SNS_ARN = aws_sns_topic.sns-FileMove.arn
+    }
+  }
 }
 
 resource "aws_s3_bucket" "bucket" {
@@ -47,4 +52,8 @@ resource "aws_lambda_permission" "fileMove-bucket-permission" {
   function_name = aws_lambda_function.golambda-FileMove.function_name
   principal     = "s3.amazonaws.com"
   source_arn    = "arn:aws:s3:::${aws_s3_bucket.bucket.id}"
+}
+
+resource "aws_sns_topic" "sns-FileMove" {
+  name = "sns-FileMove"
 }
