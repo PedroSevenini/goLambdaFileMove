@@ -8,3 +8,4 @@ terraform init
 terraform plan -var-file=environment/staging.tfvars
 terraform apply -var-file=environment/staging.tfvars
 
+teste
